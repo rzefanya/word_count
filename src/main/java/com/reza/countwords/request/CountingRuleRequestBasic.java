@@ -7,6 +7,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+/**
+ * Request for making new rules with starts with and minimum length.
+ */
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
@@ -14,6 +17,11 @@ public class CountingRuleRequestBasic extends CountingRuleBaseRequest {
 	String startsWith;
 	int minimumLength;
 
+	/**
+	 * Return regex pattern generated from startsWith and minimumLength
+	 * 
+	 * @return regex pattern
+	 */
 	@Override
 	@JsonIgnore
 	public String getPattern() {

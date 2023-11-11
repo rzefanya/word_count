@@ -7,6 +7,9 @@ import com.reza.countwords.model.InputText;
 
 import lombok.Data;
 
+/**
+ * Response object for storing word counting result
+ */
 @Data
 public class CountWordsResponse {
 	CountingRule rule;

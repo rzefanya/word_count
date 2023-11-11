@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.reza.countwords.model.InputText;
-import com.reza.countwords.service.impl.InputTextService;
+import com.reza.countwords.service.InputTextService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,11 +34,13 @@ public class InputTextController {
 
 	@GetMapping
 	public Page<InputText> findAll(Pageable pageable) {
+		log.info("findAll {}", pageable);
 		return service.findAll(pageable);
 	}
 
 	@GetMapping("/{filename}")
 	public InputText findByName(@RequestParam String filename) {
+		log.info("findByName {}", filename);
 		return service.findByFilename(filename);
 	}
 }
