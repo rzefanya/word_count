@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.reza.countwords.model.CountingRule;
 import com.reza.countwords.model.InputText;
 import com.reza.countwords.repository.InputTextRepository;
 import com.reza.countwords.service.InputTextService;
@@ -56,5 +57,15 @@ public class InputTextServiceImpl implements InputTextService {
 	public Page<InputText> findAll(Pageable pageable) {
 		log.info("findAll pageable={}", pageable);
 		return repo.findAll(pageable);
+	}
+
+	@Override
+	public InputText deleteByFilename(String name) {
+		log.info("deleteByName name={}", name);
+		InputText text = findByFilename(name);
+		if (text != null) {
+			repo.delete(text);
+		}
+		return text;
 	}
 }

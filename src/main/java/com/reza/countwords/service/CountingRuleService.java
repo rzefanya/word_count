@@ -13,4 +13,6 @@ public interface CountingRuleService {
 
 	Page<CountingRule> findAll(Pageable pageable);
 
+	CountingRule deleteByName(String name);
+
 }

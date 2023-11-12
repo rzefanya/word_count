@@ -54,4 +54,14 @@ public class CountingRuleServiceImpl implements CountingRuleService {
 		log.info("findAll pageable={}", pageable);
 		return repo.findAll(pageable);
 	}
+
+	@Override
+	public CountingRule deleteByName(String name) {
+		log.info("deleteByName name={}", name);
+		CountingRule rule = findByName(name);
+		if (rule != null) {
+			repo.delete(rule);
+		}
+		return rule;
+	}
 }

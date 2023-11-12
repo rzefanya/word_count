@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**
@@ -13,6 +14,7 @@ import lombok.Data;
 @Data
 public class CountingRule {
 	@Id
+	@NotBlank
 	String name;
 	String description;
 	String processor;

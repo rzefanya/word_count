@@ -18,4 +18,6 @@ public interface InputTextService {
 
 	Page<InputText> findAll(Pageable pageable);
 
+	InputText deleteByFilename(String name);
+
 }

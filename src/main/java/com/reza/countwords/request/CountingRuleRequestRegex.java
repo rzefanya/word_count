@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.reza.countwords.model.CountingRule;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -16,6 +17,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class CountingRuleRequestRegex extends CountingRule {
+	@NotBlank
 	String regex;
 
 	@Override
