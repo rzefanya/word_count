@@ -12,11 +12,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.reza.countwords.model.CountingRule;
 import com.reza.countwords.model.InputText;
+import com.reza.countwords.processor.BaseProcessor;
 import com.reza.countwords.request.CountWordSavedRequest;
-import com.reza.countwords.response.CountWordsResponse;
+import com.reza.countwords.result.ProcessingResult;
 import com.reza.countwords.service.CountWordsService;
 import com.reza.countwords.service.CountingRuleService;
 import com.reza.countwords.service.InputTextService;
+import com.reza.countwords.service.ProcessorService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,22 +31,11 @@ public class CountWordsServiceImpl implements CountWordsService {
 	@Autowired
 	private InputTextService inputTextService;
 
-	@Override
-	public List<String> process(String pattern, String input) {
-		log.info("process pattern={} input={}", pattern, input);
-		List<String> allMatches = new ArrayList<String>();
-		Matcher m = Pattern.compile(pattern).matcher(input);
-		while (m.find()) {
-			allMatches.add(m.group());
-		}
-
-		log.info("process pattern={} input={} allMatches={}", pattern, input, allMatches);
-
-		return allMatches;
-	}
+	@Autowired
+	private ProcessorService processorService;
 
 	@Override
-	public CountWordsResponse countWordsDefault() {
+	public ProcessingResult countWordsDefault() {
 		log.info("countWordsDefault");
 		CountWordSavedRequest request = new CountWordSavedRequest();
 		request.setFilename("default");
@@ -53,7 +44,7 @@ public class CountWordsServiceImpl implements CountWordsService {
 	}
 
 	@Override
-	public CountWordsResponse countWordsDefaultWithText(MultipartFile file) throws IOException {
+	public ProcessingResult countWordsDefaultWithText(MultipartFile file) throws IOException {
 		log.info("countWordsDefaultWithText file={}", file.getOriginalFilename());
 		CountingRule rule = countingRuleService.findByName("default");
 		InputText text = inputTextService.processText(file);
@@ -61,7 +52,7 @@ public class CountWordsServiceImpl implements CountWordsService {
 	}
 
 	@Override
-	public CountWordsResponse countWordsFromSavedText(CountWordSavedRequest request) {
+	public ProcessingResult countWordsFromSavedText(CountWordSavedRequest request) {
 		log.info("countWordsFromSavedText {}", request);
 		CountingRule rule = countingRuleService.findByName(request.getRuleName());
 		InputText text = inputTextService.findByFilename(request.getFilename());
@@ -69,15 +60,10 @@ public class CountWordsServiceImpl implements CountWordsService {
 	}
 
 	@Override
-	public CountWordsResponse countWords(CountingRule rule, InputText text) {
+	public ProcessingResult countWords(CountingRule rule, InputText text) {
 		log.info("countWords rule={} text={}", rule, text);
-		List<String> output = process(rule.getPattern(), text.getText());
-		CountWordsResponse response = new CountWordsResponse();
-		response.setRule(rule);
-		response.setText(text);
-		response.setCount(output.size());
-		response.setOutput(output);
-		log.info("countWords response={}", response);
-		return response;
+
+		BaseProcessor processor = processorService.getProcessor(rule);
+		return processor.process(rule, text);
 	}
 }

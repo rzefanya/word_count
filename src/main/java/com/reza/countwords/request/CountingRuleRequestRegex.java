@@ -10,27 +10,24 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Request for making new rules with starts with and minimum length.
+ * Request for making new rules with regex pattern.
  */
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class CountingRuleRequestBasic extends CountingRule {
-	String startsWith;
-	int minimumLength;
+public class CountingRuleRequestRegex extends CountingRule {
+	String regex;
 
 	@Override
 	@JsonIgnore
 	public String getProcessor() {
-		return "startLimitExtractorProcessor";
+		return "regexExtractorProcessor";
 	}
 
 	@Override
 	public String getAttributes() {
 		JSONObject json = new JSONObject();
-		json.put("startsWith", startsWith);
-		json.put("minimumLength", minimumLength);
+		json.put("regex", regex);
 		return json.toString();
 	}
-
 }

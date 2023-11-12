@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.reza.countwords.model.CountingRule;
 import com.reza.countwords.repository.CountingRuleRepository;
-import com.reza.countwords.request.base.CountingRuleBaseRequest;
 import com.reza.countwords.service.CountingRuleService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,20 +20,19 @@ public class CountingRuleServiceImpl implements CountingRuleService {
 	private CountingRuleRepository repo;
 
 	@Override
-	public CountingRule addRule(CountingRuleBaseRequest request) {
+	public CountingRule addRule(CountingRule request) {
 		log.info("add Rule start request={}", request);
+
 		CountingRule rule = new CountingRule();
-		rule.setName(request.getName());
+		rule.setAttributes(request.getAttributes());
 		rule.setDescription(request.getDescription());
-		rule.setPattern(request.getPattern());
-
-		log.info("add Rule rule={}", rule);
-
+		rule.setName(request.getName());
+		rule.setProcessor(request.getProcessor());
 		rule = repo.save(rule);
 
 		log.info("add Rule end rule={}", rule);
 
-		return rule;
+		return request;
 	}
 
 	@Override

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.reza.countwords.model.CountingRule;
 import com.reza.countwords.request.CountingRuleRequestBasic;
-import com.reza.countwords.request.CountingRuleRequestPattern;
+import com.reza.countwords.request.CountingRuleRequestRegex;
 import com.reza.countwords.service.CountingRuleService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ public class CountingRuleController {
 	private CountingRuleService service;
 
 	@PostMapping
-	public CountingRule save(@RequestBody CountingRuleRequestPattern request) {
+	public CountingRule save(@RequestBody CountingRuleRequestRegex request) {
 		log.info("save request={}", request);
 		return service.addRule(request);
 	}
