@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 public class CountingRule {
 	@Id
-	@NotBlank
+	@NotBlank(message = "name is mandatory")
 	String name;
 	String description;
 	String processor;

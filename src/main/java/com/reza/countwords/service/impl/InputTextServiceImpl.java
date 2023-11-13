@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.reza.countwords.model.CountingRule;
+import com.reza.countwords.exception.ResourceNotFoundException;
 import com.reza.countwords.model.InputText;
 import com.reza.countwords.repository.InputTextRepository;
 import com.reza.countwords.service.InputTextService;
@@ -49,7 +49,7 @@ public class InputTextServiceImpl implements InputTextService {
 			return rule.get();
 		} else {
 			log.info("findByFilename filename={} null", filename);
-			return null;
+			throw new ResourceNotFoundException(String.format("file %s not found", filename));
 		}
 	}
 
@@ -65,6 +65,8 @@ public class InputTextServiceImpl implements InputTextService {
 		InputText text = findByFilename(name);
 		if (text != null) {
 			repo.delete(text);
+		} else {
+			throw new ResourceNotFoundException(String.format("file %s not found", name));
 		}
 		return text;
 	}

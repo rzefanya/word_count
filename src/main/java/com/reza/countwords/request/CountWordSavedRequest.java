@@ -1,5 +1,6 @@
 package com.reza.countwords.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**
@@ -7,6 +8,9 @@ import lombok.Data;
  */
 @Data
 public class CountWordSavedRequest {
+	@NotBlank(message = "ruleName is mandatory")
 	String ruleName;
+
+	@NotBlank(message = "filename is mandatory")
 	String filename;
 }

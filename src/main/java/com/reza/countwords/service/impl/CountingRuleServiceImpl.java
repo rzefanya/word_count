@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.reza.countwords.exception.ResourceNotFoundException;
 import com.reza.countwords.model.CountingRule;
 import com.reza.countwords.repository.CountingRuleRepository;
 import com.reza.countwords.service.CountingRuleService;
@@ -45,7 +46,7 @@ public class CountingRuleServiceImpl implements CountingRuleService {
 			return rule.get();
 		} else {
 			log.info("findByName name={} null", name);
-			return null;
+			throw new ResourceNotFoundException(String.format("rule %s not found", name));
 		}
 	}
 
@@ -61,6 +62,8 @@ public class CountingRuleServiceImpl implements CountingRuleService {
 		CountingRule rule = findByName(name);
 		if (rule != null) {
 			repo.delete(rule);
+		} else {
+			throw new ResourceNotFoundException(String.format("rule %s not found", name));
 		}
 		return rule;
 	}

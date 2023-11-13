@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class CountingRuleRequestRegex extends CountingRule {
-	@NotBlank
+	@NotBlank(message = "regex is mandatory")
 	String regex;
 
 	@Override

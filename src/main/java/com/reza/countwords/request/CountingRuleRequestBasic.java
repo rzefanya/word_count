@@ -5,7 +5,9 @@ import org.json.JSONObject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.reza.countwords.model.CountingRule;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -17,10 +19,11 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class CountingRuleRequestBasic extends CountingRule {
-	@NotBlank
+	@NotBlank(message = "startsWith is mandatory")
 	String startsWith;
 	
-	@NotBlank
+	@NotNull(message = "minimumLength is mandatory")
+	@Min(value = 1, message = "minimumLength must be more than 0")
 	int minimumLength;
 
 	@Override
